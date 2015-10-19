@@ -1,0 +1,26 @@
+From 4388ed0f2d66399a6ad3133b91bd438cdb25e37b Mon Sep 17 00:00:00 2001
+From: Derek Foreman <derekf@osg.samsung.com>
+Date: Thu, 2 Jul 2015 11:20:21 -0500
+Subject: [PATCH 4/5] drm/vc4: Allow vblank to be disabled
+
+Signed-off-by: Derek Foreman <derekf@osg.samsung.com>
+---
+ drivers/gpu/drm/vc4/vc4_kms.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
+index cb18d8f0e387..1473df9ef4a1 100644
+--- a/drivers/gpu/drm/vc4/vc4_kms.c
++++ b/drivers/gpu/drm/vc4/vc4_kms.c
+@@ -218,6 +218,8 @@ vc4_kms_load(struct drm_device *dev)
+       dev->mode_config.funcs = &vc4_mode_funcs;
+       dev->mode_config.preferred_depth = 24;
+ 
++      dev->vblank_disable_allowed = true;
++
+       ret = vc4_init_modeset_objects(dev);
+       if (ret)
+               goto fail;
+--
+2.4.3
+

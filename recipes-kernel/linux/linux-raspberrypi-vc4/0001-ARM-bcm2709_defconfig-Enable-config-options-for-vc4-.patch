@@ -1,0 +1,47 @@
+From 5908700d3cb88114002aa66f920e91961ebe91e4 Mon Sep 17 00:00:00 2001
+From: Derek Foreman <derekf@osg.samsung.com>
+Date: Fri, 24 Jul 2015 01:58:31 +0200
+Subject: [PATCH 1/5] ARM: bcm2709_defconfig: Enable config options for vc4
+ support
+
+Add the needed Kconfig symbols to build Eric Anholt's WIP kernel
+4.1 Linux kernel with vc4 dri/kms/3d support. Also increase CMA
+size from 5 MiB to 256 MiB as that is needed by the driver.
+
+Signed-off-by: Derek Foreman <derekf@osg.samsung.com>
+---
+ arch/arm/configs/bcm2709_defconfig | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/arch/arm/configs/bcm2709_defconfig b/arch/arm/configs/bcm2709_defconfig
+index a3067bfb610f..7891bb17df57 100644
+--- a/arch/arm/configs/bcm2709_defconfig
++++ b/arch/arm/configs/bcm2709_defconfig
+@@ -39,6 +39,7 @@ CONFIG_MAC_PARTITION=y
+ CONFIG_CFQ_GROUP_IOSCHED=y
+ CONFIG_ARCH_BCM2709=y
+ CONFIG_BCM2709_DT=y
++# CONFIG_VDSO is not set
+ # CONFIG_CACHE_L2X0 is not set
+ CONFIG_SMP=y
+ CONFIG_HAVE_ARM_ARCH_TIMER=y
+@@ -388,7 +389,7 @@ CONFIG_NFC_PN533=m
+ CONFIG_DEVTMPFS=y
+ CONFIG_DEVTMPFS_MOUNT=y
+ CONFIG_DMA_CMA=y
+-CONFIG_CMA_SIZE_MBYTES=5
++CONFIG_CMA_SIZE_MBYTES=256
+ CONFIG_BLK_DEV_LOOP=y
+ CONFIG_BLK_DEV_CRYPTOLOOP=m
+ CONFIG_BLK_DEV_DRBD=m
+@@ -771,6 +772,8 @@ CONFIG_VIDEO_TW9906=m
+ CONFIG_VIDEO_OV7640=m
+ CONFIG_VIDEO_MT9V011=m
+ CONFIG_FB=y
++CONFIG_DRM=y
++CONFIG_DRM_VC4=y
+ CONFIG_FB_BCM2708=y
+ CONFIG_FB_SSD1307=m
+ # CONFIG_BACKLIGHT_GENERIC is not set
+--
+2.4.3
