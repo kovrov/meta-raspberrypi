@@ -66,6 +66,12 @@ do_deploy() {
         echo "# Enable offline compositing" >>${DEPLOYDIR}/bcm2835-bootfiles/config.txt
         echo "dispmanx_offline=1" >>${DEPLOYDIR}/bcm2835-bootfiles/config.txt
     fi
+
+    # Mask GPU interrupts
+    if [ -n "${MASK_GPU_INTERRUPT}" ]; then
+        echo "# Mask GPU interrupts" >>${DEPLOYDIR}/bcm2835-bootfiles/config.txt
+        echo "mask_gpu_interrupt0=${MASK_GPU_INTERRUPT}" >>${DEPLOYDIR}/bcm2835-bootfiles/config.txt
+    fi
 }
 
 addtask deploy before do_package after do_install
