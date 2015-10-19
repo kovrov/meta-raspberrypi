@@ -1,6 +1,6 @@
 LINUX_VERSION ?= "4.1.0"
 
-SRCREV = "07009cab090ade3dd180e8a55d590b1a00072eed"
+SRCREV = "b8b2f50546513355fecd9ac44b2355f19a9620a8"
 SRC_URI = "git://github.com/anholt/linux.git;protocol=git;branch=vc4-kms-v3d-rpi2 \
            file://0001-rpi2-setup.patch \
            file://0002-drm-vc4-Use-the-fbdev_cma-helpers.patch \
