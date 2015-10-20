@@ -1,72 +1,71 @@
+diff --git a/arch/arm/boot/dts/bcm2708.dtsi b/arch/arm/boot/dts/bcm2708.dtsi
+index a70fa31..b954255 100644
+--- a/arch/arm/boot/dts/bcm2708.dtsi
++++ b/arch/arm/boot/dts/bcm2708.dtsi
+@@ -1,4 +1,4 @@
+-#include/ "bcm2708_common.dtsi"
++#include "bcm2708_common.dtsi"
+
+ / {
+ 	compatible = "brcm,bcm2708";
 diff --git a/drivers/gpu/drm/drm_atomic_helper.c b/drivers/gpu/drm/drm_atomic_helper.c
-index 1d2ca52..ba7f355 100644
+index 932a274..5e7ad12 100644
 --- a/drivers/gpu/drm/drm_atomic_helper.c
 +++ b/drivers/gpu/drm/drm_atomic_helper.c
-@@ -1876,7 +1876,7 @@ void drm_atomic_helper_connector_dpms(struct drm_connector *connector,
+@@ -1971,7 +1971,7 @@ void drm_atomic_helper_connector_dpms(struct drm_connector *connector,
  	struct drm_connector *tmp_connector;
  	int ret;
  	bool active = false;
 -
-+return;
++	return;
  	if (mode != DRM_MODE_DPMS_ON)
  		mode = DRM_MODE_DPMS_OFF;
  
 diff --git a/drivers/gpu/drm/vc4/vc4_crtc.c b/drivers/gpu/drm/vc4/vc4_crtc.c
-index f9960ac..1b85355 100644
+index 36c92b7..27de8ac 100644
 --- a/drivers/gpu/drm/vc4/vc4_crtc.c
 +++ b/drivers/gpu/drm/vc4/vc4_crtc.c
-@@ -91,7 +91,7 @@ static void vc4_crtc_mode_set_nofb(struct drm_crtc *crtc)
- 		       ((mode->flags & DRM_MODE_FLAG_INTERLACE) ? 1 : 0));
+@@ -191,6 +191,7 @@ static void vc4_crtc_mode_set_nofb(struct drm_crtc *crtc)
  	u32 format = PV_CONTROL_FORMAT_24;
  	bool debug_dump_regs = false;
--
-+return;
+ 	int clock_select = vc4_get_clock_select(crtc);
++	return;
+
  	if (debug_dump_regs) {
  		DRM_INFO("CRTC %d regs before:\n", drm_crtc_index(crtc));
- 		vc4_crtc_dump_regs(vc4_crtc);
 diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
-index 8c41fdc..2a212b0 100644
+index 37553a6..cfe4773 100644
 --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
 +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
-@@ -273,7 +273,7 @@ vc4_set_pixel_clock(struct vc4_dev *vc4, u32 clock)
- {
- 	u32 packet[2];
- 	int ret;
--
-+return;
- 	packet[0] = 8; /* Pixel clock. */
- 	packet[1] = clock;
- 
-@@ -295,6 +295,7 @@ static void vc4_hdmi_encoder_mode_set(struct drm_encoder *encoder,
+@@ -286,6 +286,7 @@ static void vc4_hdmi_encoder_mode_set(struct drm_encoder *encoder,
  	bool debug_dump_regs = false;
- 	bool hsync_pos = !(mode->flags & DRM_MODE_FLAG_NHSYNC);
- 	bool vsync_pos = !(mode->flags & DRM_MODE_FLAG_NVSYNC);
-+return;
+ 	bool hsync_pos = mode->flags & DRM_MODE_FLAG_PHSYNC;
+ 	bool vsync_pos = mode->flags & DRM_MODE_FLAG_PVSYNC;
++	return;
  	u32 vactive = (mode->vdisplay >>
  		       ((mode->flags & DRM_MODE_FLAG_INTERLACE) ? 1 : 0));
  	u32 verta = (VC4_SET_FIELD(mode->vsync_end - mode->vsync_start,
-@@ -405,7 +406,7 @@ static void vc4_hdmi_encoder_disable(struct drm_encoder *encoder)
+@@ -350,6 +351,7 @@ static void vc4_hdmi_encoder_disable(struct drm_encoder *encoder)
  {
  	struct drm_device *dev = encoder->dev;
  	struct vc4_dev *vc4 = to_vc4_dev(dev);
--
-+return;
++	return;
+
  	HDMI_WRITE(VC4_HDMI_TX_PHY_RESET_CTL, 0xf << 16);
- }
- 
-@@ -413,6 +414,7 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
- {
+ 	HD_WRITE(VC4_HD_VID_CTL,
+@@ -362,6 +364,7 @@ static void vc4_hdmi_encoder_enable(struct drm_encoder *encoder)
  	struct drm_device *dev = encoder->dev;
  	struct vc4_dev *vc4 = to_vc4_dev(dev);
-+return;
- 
+ 	int ret;
++	return;
+
  	HDMI_WRITE(VC4_HDMI_TX_PHY_RESET_CTL, 0);
- }
+
 diff --git a/drivers/gpu/drm/vc4/vc4_kms.c b/drivers/gpu/drm/vc4/vc4_kms.c
-index 1473df9..5ddc5d9 100644
+index c83287a..ada51b5 100644
 --- a/drivers/gpu/drm/vc4/vc4_kms.c
 +++ b/drivers/gpu/drm/vc4/vc4_kms.c
-@@ -144,6 +144,7 @@ static int vc4_atomic_commit(struct drm_device *dev,
+@@ -160,6 +160,7 @@ static int vc4_atomic_commit(struct drm_device *dev,
  	 * current layout.
  	 */
  
